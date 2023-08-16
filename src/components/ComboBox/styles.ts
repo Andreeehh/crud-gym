@@ -14,8 +14,11 @@ export const ComboBoxInput = styled(Input)<StyledInputType>`
 `;
 
 export const ComboBoxWrapper = styled.div`
+${({ theme }) => css`
     position: relative;
-    width: 45%;
+    width: 100%;
+    margin-bottom: ${theme.spacings.large};
+    `}
 `;
 
 export const DropdownList = styled.ul`

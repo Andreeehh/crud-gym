@@ -7,15 +7,58 @@ import * as StyledInput from '../TextInput/styles';
 import { CreateStrapiStudent } from '../../types/CreateStrapiStudent';
 import { StrapiStudent } from '../../types/StrapiStudent';
 import { CheckboxItem } from 'components/CheckBoxItem';
-import { Email } from '@styled-icons/material-outlined';
+import { Email, Style } from '@styled-icons/material-outlined';
 import InputMask from 'react-input-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { getNumberFromBoolean } from 'utils/math-utils';
+import { RadioButton } from 'components/RadioButton';
+import { Label } from 'components/Label';
+import { ComboBox } from 'components/ComboBox';
 
 export type FormStudentProps = {
   onSave?: (post: CreateStrapiStudent) => Promise<void>;
   student?: StrapiStudent;
 };
+
+export const injuryOptions = [
+  'SHOULDER',
+  'ANKLE',
+  'LOWER BACK',
+  'NECK',
+  'KNEE',
+  'HIP',
+  'WRIST',
+  'OTHER',
+];
+
+export const injuryOptionsPTBR = [
+  'Ombro',
+  'Tornozelo',
+  'Lombar',
+  'Pescoço',
+  'Joelho',
+  'Quadril',
+  'Pulso',
+  'Outro',
+];
+
+export const goalsOptions = [
+  'MASS GAIN',
+  'WEIGHT LOSS',
+  'MOBILITY INCREASE',
+  'INJURY RECOVERY',
+  'OTHER',
+];
+
+export const goalsOptionsPTBR = [
+  'Ganho de massa',
+  'Perda de peso',
+  'Aumento de mobilidade',
+  'Recuperação de lesão',
+  'Outro',
+];
+
+export const injurySeverity = ['1', '2', '3', '4', '5'];
 
 export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const { attributes, id = '' } = student || {};
@@ -30,11 +73,6 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const genderOptions = [
     { id: 'male', displayName: 'Masculino' },
     { id: 'female', displayName: 'Feminino' },
-  ];
-
-  const injuryOptions = [
-    { id: 1, displayName: 'Sim' },
-    { id: 0, displayName: 'Não' },
   ];
 
   const initialGender = attributes ? attributes.gender : 'male';
@@ -58,6 +96,32 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const [selectedInjury, setSelectedInjury] = useState(initialInjury);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [hasInjuries, setHasInjuries] = useState(false);
+  const [isOnDiet, setIsOnDiet] = useState(false);
+  const [selectedInjuryTypeOption, setSelectedInjuryTypeOption] = useState('');
+  const [selectedInjurySeverityOption, setSelectedInjurySeverityOption] =
+    useState('');
+  const [selectedGoalOption, setSelectedGoalOption] = useState('');
+
+  const handleSelectInjuryTypeOption = (option) => {
+    setSelectedInjuryTypeOption(option);
+  };
+
+  const handleSelectInjurySeverityOption = (option) => {
+    setSelectedInjurySeverityOption(option);
+  };
+
+  const handleSelectGoalOption = (option) => {
+    setSelectedGoalOption(option);
+  };
+
+  const handleInjuriesChange = (value: string) => {
+    setHasInjuries(value === 'yes');
+  };
+
+  const handleDietChange = (value: string) => {
+    setIsOnDiet(value === 'yes');
+  };
 
   const handleGenderChange = (id: string, isChecked: boolean) => {
     setSelectedGender(isChecked ? id : '');
@@ -93,6 +157,15 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
         errorMessage={nameErrorMessage}
         hasFocus={shouldFocusName}
       />
+      <Styled.TextInputGrid columns={2}>
+        <ComboBox
+          label="Selecione uma Objetivo"
+          name="Goal"
+          errorMessage="" // Provide an error message if needed
+          options={goalsOptionsPTBR}
+          onSelectOption={handleSelectGoalOption}
+        />
+      </Styled.TextInputGrid>
       <Styled.TextInputGrid columns={2}>
         <TextInput
           name="student-email"
@@ -162,6 +235,61 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
           firstItem={false}
         />
       </Styled.TextInputGrid>
+      <Styled.TextInputGrid columns={6}>
+        <Label title="Lesões?" />
+        <RadioButton
+          label="Sim"
+          name="has-injuries"
+          value="yes"
+          checked={hasInjuries}
+          onRadioButtonChange={handleInjuriesChange}
+          firstItem={false}
+        />
+        <RadioButton
+          label="Não"
+          name="has-not-injuries"
+          value="no"
+          checked={!hasInjuries}
+          onRadioButtonChange={handleInjuriesChange}
+          firstItem={false}
+        />
+        <Label title="Em Dieta?" />
+        <RadioButton
+          label="Sim"
+          name="is-on-diet"
+          value="yes"
+          checked={isOnDiet}
+          onRadioButtonChange={handleDietChange}
+          firstItem={false}
+        />
+        <RadioButton
+          label="Não"
+          name="is-not-on-diet"
+          value="no"
+          checked={!isOnDiet}
+          onRadioButtonChange={handleDietChange}
+          firstItem={false}
+        />
+      </Styled.TextInputGrid>
+
+      {hasInjuries && (
+        <Styled.TextInputGrid columns={2}>
+          <ComboBox
+            label="Selecione uma Lesão"
+            name="injuryRegion"
+            errorMessage="" // Provide an error message if needed
+            options={injuryOptionsPTBR}
+            onSelectOption={handleSelectInjuryTypeOption}
+          />
+          <ComboBox
+            label="Selecione um nível de gravidade"
+            name="injurySeverity"
+            errorMessage="" // Provide an error message if needed
+            options={injurySeverity}
+            onSelectOption={handleSelectInjurySeverityOption}
+          />
+        </Styled.TextInputGrid>
+      )}
 
       <TextInput
         name="student-notes"
