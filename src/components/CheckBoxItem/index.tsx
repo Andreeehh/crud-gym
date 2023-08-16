@@ -1,11 +1,15 @@
 import { Checkbox } from 'components/CheckBox';
-import { Metadata } from 'types/Metadata';
 
 export type CheckBoxItemProps = {
-  item: Metadata;
+  item: itemProps;
   isChecked: boolean;
-  onCheckboxChange: (id: string, isChecked: boolean) => void;
+  onCheckboxChange: (id: string | number, isChecked: boolean) => void;
   firstItem: boolean;
+};
+
+export type itemProps = {
+  id: string | number;
+  displayName: string;
 };
 
 export const CheckboxItem = ({
@@ -21,8 +25,8 @@ export const CheckboxItem = ({
   return (
     <Checkbox
       key={item.id}
-      label={item.attributes.displayName}
-      name={item.attributes.displayName}
+      label={item.displayName}
+      name={item.displayName}
       checked={isChecked}
       onCheckboxChange={handleCheckboxChange}
       firstItem={firstItem}

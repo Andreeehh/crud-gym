@@ -30,10 +30,13 @@
     "prismjs": "^1.29.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-input-mask": "^2.0.4",
     "react-markdown": "^8.0.3",
     "react-responsive": "^9.0.2",
+    "react-text-mask": "^5.5.0",
     "storybook-addon-next": "^1.6.6",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "text-mask-addons": "^3.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",

@@ -4,7 +4,7 @@ import * as Styled from './styles';
 export type ButtonProps = {
   children: React.ReactNode;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (event?: React.FormEvent) => void;
   icon?: React.ReactNode;
   color?: 'primary' | 'secondary';
 } & ButtonHTMLAttributes<HTMLButtonElement>;

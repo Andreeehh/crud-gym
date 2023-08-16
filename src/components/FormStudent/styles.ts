@@ -53,3 +53,14 @@ export const ErrorMessage = styled.p`
     padding: ${theme.spacings.xsmall} ${theme.spacings.small};
   `}
 `;
+
+interface TextInputGridProps {
+  columns?: number;
+}
+
+export const TextInputGrid = styled.div<TextInputGridProps>`
+  display: grid;
+  grid-template-columns: repeat(${(props) => props.columns || 2}, 1fr);
+  gap: ${({ theme }) => theme.spacings.medium};
+  margin-bottom: ${({ theme }) => theme.spacings.medium};
+`;
