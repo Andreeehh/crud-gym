@@ -67,17 +67,13 @@ export const injurySeverity = ['1', '2', '3', '4', '5'];
 export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const { attributes, id = '' } = student || {};
   const [saving, setSaving] = useState(false);
-  const name = '';
-  const weight = '';
-  const height = '';
-  const notes = '';
-  if (attributes) {
-    //todo
-  }
+  const { name, weight, height, notes } = attributes || {};
   const genderOptions = [
     { id: 'm', displayName: 'Masculino' },
     { id: 'f', displayName: 'Feminino' },
   ];
+  console.log('student');
+  console.log(student);
 
   const initialGender = attributes ? attributes.gender : 'm';
   const initialInjury = attributes
@@ -87,10 +83,14 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const [newName, setNewName] = useState(attributes ? name : '');
   const [nameErrorMessage, setNameErrorMessage] = useState('');
   const [shouldFocusName, setShouldFocusName] = useState(false);
-  const [newWeight, setNewWeight] = useState(attributes ? weight : '');
+  const [newWeight, setNewWeight] = useState(
+    attributes ? weight.toString() : '',
+  );
   const [weightErrorMessage, setWeightErrorMessage] = useState('');
   const [shouldFocusWeight, setShouldFocusWeight] = useState(false);
-  const [newHeight, setNewHeight] = useState(attributes ? height : '');
+  const [newHeight, setNewHeight] = useState(
+    attributes ? height.toString() : '',
+  );
   const [heightErrorMessage, setHeightErrorMessage] = useState('');
   const [shouldFocusHeight, setShouldFocusHeight] = useState(false);
   const [newNotes, setNewNotes] = useState(attributes ? notes : '');
@@ -170,6 +170,7 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
 
     try {
       const studentData: CreateStrapiStudent = {
+        id,
         attributes: {
           name: newName,
           slug:

@@ -27,8 +27,11 @@ export const Menu = () => {
       <Link href="/">
         <a>Home</a>
       </Link>
+      <Link href="/students">
+        <a>Alunos</a>
+      </Link>
       <Link href="/create-student">
-        <a>Create Post</a>
+        <a>Criar aluno</a>
       </Link>
       {/* <Link href="/open-route">
         <a>Open route</a>

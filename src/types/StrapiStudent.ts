@@ -19,6 +19,5 @@ export type StrapiStudent = {
     injurySeverity: number;
     goal: Goal;
     notes: string;
-    createdAt?: string;
   };
 };
