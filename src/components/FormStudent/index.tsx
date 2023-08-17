@@ -17,6 +17,7 @@ import { Gender } from 'types/Gender';
 import { InjuryRegion } from 'types/InjuryRegion';
 import { Goal } from 'types/Goal';
 import { mapOptionToEnglish } from 'utils/map-options';
+import { randomInt } from 'crypto';
 
 export type FormStudentProps = {
   onSave?: (student: CreateStrapiStudent) => Promise<void>;
@@ -171,10 +172,11 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
       const studentData: CreateStrapiStudent = {
         attributes: {
           name: newName,
-          slug: newName
-            .replace(/ /g, '-')
-            .replace(/[^0-9a-zA-Z-]+/g, '')
-            .toLowerCase(),
+          slug:
+            newName
+              .replace(/ /g, '-')
+              .replace(/[^0-9a-zA-Z-]+/g, '')
+              .toLowerCase() + randomInt(1, 250),
           weight: parseFloat(newWeight),
           height: parseFloat(newHeight),
           gender: selectedGender as Gender,
@@ -193,14 +195,10 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
         },
       };
 
-      console.log(studentData);
-
       if (onSave) {
         await onSave(studentData);
-        alert('Mudanças salvas');
       }
     } catch (error) {
-      console.error('Error saving student:', error);
       alert('Erro ao salvar');
     }
 
