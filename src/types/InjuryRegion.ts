@@ -1,9 +1,10 @@
 export type InjuryRegion =
   | 'SHOULDER'
   | 'ANKLE'
-  | 'LOWER BACK'
+  | 'LOWER_BACK'
   | 'NECK'
   | 'KNEE'
   | 'HIP'
   | 'WRIST'
-  | 'OTHER';
+  | 'OTHER'
+  | null;

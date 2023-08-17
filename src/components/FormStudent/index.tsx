@@ -1,29 +1,32 @@
 import * as Styled from './styles';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../Button';
 import { TextInput } from '../TextInput';
 import * as StyledInput from '../TextInput/styles';
 import { CreateStrapiStudent } from '../../types/CreateStrapiStudent';
 import { StrapiStudent } from '../../types/StrapiStudent';
 import { CheckboxItem } from 'components/CheckBoxItem';
-import { Email, Style } from '@styled-icons/material-outlined';
+import { Email } from '@styled-icons/material-outlined';
 import InputMask from 'react-input-mask';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { getNumberFromBoolean } from 'utils/math-utils';
 import { RadioButton } from 'components/RadioButton';
 import { Label } from 'components/Label';
 import { ComboBox } from 'components/ComboBox';
+import { Gender } from 'types/Gender';
+import { InjuryRegion } from 'types/InjuryRegion';
+import { Goal } from 'types/Goal';
+import { mapOptionToEnglish } from 'utils/map-options';
 
 export type FormStudentProps = {
-  onSave?: (post: CreateStrapiStudent) => Promise<void>;
+  onSave?: (student: CreateStrapiStudent) => Promise<void>;
   student?: StrapiStudent;
 };
 
 export const injuryOptions = [
   'SHOULDER',
   'ANKLE',
-  'LOWER BACK',
+  'LOWER_BACK',
   'NECK',
   'KNEE',
   'HIP',
@@ -43,10 +46,10 @@ export const injuryOptionsPTBR = [
 ];
 
 export const goalsOptions = [
-  'MASS GAIN',
-  'WEIGHT LOSS',
-  'MOBILITY INCREASE',
-  'INJURY RECOVERY',
+  'MASS_GAIN',
+  'WEIGHT_LOSS',
+  'MOBILITY_INCREASE',
+  'INJURY_RECOVERY',
   'OTHER',
 ];
 
@@ -71,11 +74,11 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
     //todo
   }
   const genderOptions = [
-    { id: 'male', displayName: 'Masculino' },
-    { id: 'female', displayName: 'Feminino' },
+    { id: 'm', displayName: 'Masculino' },
+    { id: 'f', displayName: 'Feminino' },
   ];
 
-  const initialGender = attributes ? attributes.gender : 'male';
+  const initialGender = attributes ? attributes.gender : 'm';
   const initialInjury = attributes
     ? getNumberFromBoolean(attributes.hasInjuries)
     : 0;
@@ -93,7 +96,6 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const [notesErrorMessage, setNotesErrorMessage] = useState('');
   const [shouldFocusNotes, setShouldFocusNotes] = useState(false);
   const [selectedGender, setSelectedGender] = useState(initialGender);
-  const [selectedInjury, setSelectedInjury] = useState(initialInjury);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [hasInjuries, setHasInjuries] = useState(false);
@@ -123,23 +125,84 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
     setIsOnDiet(value === 'yes');
   };
 
-  const handleGenderChange = (id: string, isChecked: boolean) => {
-    setSelectedGender(isChecked ? id : '');
-  };
-
-  const handleInjuryChange = (id: number, isChecked: boolean) => {
-    setSelectedInjury(isChecked ? id : 0);
+  const handleGenderChange = (id: Gender, isChecked: boolean) => {
+    setSelectedGender(isChecked ? id : 'm');
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (!newName) {
+      setNameErrorMessage('Adicione um nome');
+      setShouldFocusName(true);
+      return;
+    }
+    if (!newWeight) {
+      setWeightErrorMessage('Adicione um peso');
+      setShouldFocusWeight(true);
+      return;
+    }
+    if (!newHeight) {
+      setHeightErrorMessage('Adicione uma altura');
+      setShouldFocusHeight(true);
+      return;
+    }
+
     setSaving(true);
 
-    if (onSave) {
-      // await onSave();
+    if (!hasInjuries) {
+      setSelectedInjurySeverityOption(null);
+      setSelectedInjuryTypeOption(null);
     }
-    alert('Mudanças salvas');
+
+    const selectedGoalOptionEnglish = mapOptionToEnglish(
+      selectedGoalOption,
+      goalsOptionsPTBR,
+      goalsOptions,
+    );
+
+    const selectedInjuryTypeOptionEnglish = mapOptionToEnglish(
+      selectedInjuryTypeOption,
+      injuryOptionsPTBR,
+      injuryOptions,
+    );
+
+    try {
+      const studentData: CreateStrapiStudent = {
+        attributes: {
+          name: newName,
+          slug: newName
+            .replace(/ /g, '-')
+            .replace(/[^0-9a-zA-Z-]+/g, '')
+            .toLowerCase(),
+          weight: parseFloat(newWeight),
+          height: parseFloat(newHeight),
+          gender: selectedGender as Gender,
+          email: email,
+          notes: notes,
+          phone: phone,
+          isOnDiet: isOnDiet,
+          hasInjuries: hasInjuries,
+          injurySeverity: !hasInjuries
+            ? null
+            : parseInt(selectedInjurySeverityOption),
+          injuryRegion: !hasInjuries
+            ? null
+            : (selectedInjuryTypeOptionEnglish as InjuryRegion),
+          goal: selectedGoalOptionEnglish as Goal,
+        },
+      };
+
+      console.log(studentData);
+
+      if (onSave) {
+        await onSave(studentData);
+        alert('Mudanças salvas');
+      }
+    } catch (error) {
+      console.error('Error saving student:', error);
+      alert('Erro ao salvar');
+    }
 
     setSaving(false);
   };

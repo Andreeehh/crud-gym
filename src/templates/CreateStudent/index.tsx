@@ -3,12 +3,36 @@ import { gqlClient } from '../../graphql/client';
 import { Wrapper } from '../../components/Wrapper';
 import { useRouter } from 'next/dist/client/router';
 import { FormStudent } from 'components/FormStudent';
+import { ResponseStudent } from 'api/create-student';
+import { GQL_MUTATION_CREATE_STUDENT } from 'graphql/mutations/student';
 
 export function CreateStudentTemplate() {
   const router = useRouter();
   const [session] = useSession();
 
-  const handleSave = null;
+  const handleSave = async (studentData) => {
+    const { attributes } = studentData;
+    try {
+      const response = await gqlClient.request<ResponseStudent>(
+        GQL_MUTATION_CREATE_STUDENT, // Make sure you have this mutation imported
+        { ...attributes },
+        {
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      );
+      const createdStudent = response.createStudent.data;
+      if (createdStudent) {
+        // Redirect or perform any other action upon successful creation
+        // router.push(`/students/${createdStudent.id}`);
+        alert('Criado');
+      } else {
+        throw new Error('Error creating student');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error creating student');
+    }
+  };
 
   return (
     <Wrapper>

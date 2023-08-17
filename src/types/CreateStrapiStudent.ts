@@ -11,13 +11,13 @@ export type CreateStrapiStudent = {
     phone?: string;
     height?: number;
     gender: Gender;
-    weight?: number[];
+    weight?: number;
     isOnDiet?: boolean;
     hasInjuries?: boolean;
     injuryRegion?: InjuryRegion;
-    injurySeverity?: number;
+    injurySeverity?: number | null;
     goal?: Goal;
-    notes: string;
+    notes?: string;
     createdAt?: string;
   };
 };
