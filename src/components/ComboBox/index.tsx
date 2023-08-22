@@ -8,6 +8,7 @@ export type ComboBoxProps = {
   errorMessage: string;
   options: string[];
   onSelectOption: (selectedOption: string) => void;
+  selectedOptionIndex?: number;
 };
 
 export const ComboBox = ({
@@ -16,8 +17,9 @@ export const ComboBox = ({
   errorMessage = '',
   options = [],
   onSelectOption,
+  selectedOptionIndex = 0,
 }: ComboBoxProps) => {
-  const [inputValue, setInputValue] = useState(options[0]);
+  const [inputValue, setInputValue] = useState(options[selectedOptionIndex]);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

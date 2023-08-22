@@ -14,8 +14,9 @@ export function UpdateStudentTemplate({ student }: FormStudentProps) {
   const handleSave = async (studentData) => {
     const { attributes, id } = studentData;
     try {
+      console.log('studentData from update', studentData);
       await gqlClient.request<ResponseStudent>(
-        GQL_MUTATION_UPDATE_STUDENT, // Make sure you have this mutation imported
+        GQL_MUTATION_UPDATE_STUDENT,
         { id, ...attributes },
         {
           Authorization: `Bearer ${session.accessToken}`,

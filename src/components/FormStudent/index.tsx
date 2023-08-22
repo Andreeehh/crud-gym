@@ -9,15 +9,14 @@ import { StrapiStudent } from '../../types/StrapiStudent';
 import { CheckboxItem } from 'components/CheckBoxItem';
 import { Email } from '@styled-icons/material-outlined';
 import InputMask from 'react-input-mask';
-import { getNumberFromBoolean } from 'utils/math-utils';
 import { RadioButton } from 'components/RadioButton';
 import { Label } from 'components/Label';
 import { ComboBox } from 'components/ComboBox';
 import { Gender } from 'types/Gender';
 import { InjuryRegion } from 'types/InjuryRegion';
 import { Goal } from 'types/Goal';
-import { mapOptionToEnglish } from 'utils/map-options';
-import { randomInt } from 'crypto';
+import { mapOptionToEnglish, mapOptionToPortuguese } from 'utils/map-options';
+import { randomInt } from 'utils/math-utils';
 
 export type FormStudentProps = {
   onSave?: (student: CreateStrapiStudent) => Promise<void>;
@@ -62,23 +61,32 @@ export const goalsOptionsPTBR = [
   'Outro',
 ];
 
-export const injurySeverity = ['1', '2', '3', '4', '5'];
+export const injurySeverityOptions = ['1', '2', '3', '4', '5'];
 
 export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const { attributes, id = '' } = student || {};
   const [saving, setSaving] = useState(false);
-  const { name, weight, height, notes } = attributes || {};
+  const {
+    name,
+    email,
+    phone,
+    gender,
+    weight,
+    height,
+    isOnDiet,
+    hasInjuries,
+    injuryRegion,
+    injurySeverity,
+    goal,
+    notes,
+  } = attributes || {};
+
   const genderOptions = [
     { id: 'm', displayName: 'Masculino' },
     { id: 'f', displayName: 'Feminino' },
   ];
-  console.log('student');
-  console.log(student);
 
-  const initialGender = attributes ? attributes.gender : 'm';
-  const initialInjury = attributes
-    ? getNumberFromBoolean(attributes.hasInjuries)
-    : 0;
+  const initialGender = attributes ? gender : 'm';
 
   const [newName, setNewName] = useState(attributes ? name : '');
   const [nameErrorMessage, setNameErrorMessage] = useState('');
@@ -95,16 +103,35 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const [shouldFocusHeight, setShouldFocusHeight] = useState(false);
   const [newNotes, setNewNotes] = useState(attributes ? notes : '');
   const [notesErrorMessage, setNotesErrorMessage] = useState('');
-  const [shouldFocusNotes, setShouldFocusNotes] = useState(false);
   const [selectedGender, setSelectedGender] = useState(initialGender);
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [hasInjuries, setHasInjuries] = useState(false);
-  const [isOnDiet, setIsOnDiet] = useState(false);
-  const [selectedInjuryTypeOption, setSelectedInjuryTypeOption] = useState('');
+  const [newEmail, setNewEmail] = useState(
+    attributes ? (email ? email : '') : '',
+  );
+  const [newPhone, setNewPhone] = useState(
+    attributes ? (phone ? phone : '') : '',
+  );
+  const [newHasInjuries, setNewHasInjuries] = useState(
+    attributes ? (hasInjuries ? hasInjuries : false) : false,
+  );
+  const [newIsOnDiet, setNewIsOnDiet] = useState(
+    attributes ? (isOnDiet ? isOnDiet : false) : false,
+  );
+  const [selectedInjuryTypeOption, setSelectedInjuryTypeOption] = useState(
+    attributes
+      ? injuryRegion
+        ? mapOptionToPortuguese(injuryRegion, injuryOptionsPTBR, injuryOptions)
+        : ''
+      : '',
+  );
   const [selectedInjurySeverityOption, setSelectedInjurySeverityOption] =
-    useState('');
-  const [selectedGoalOption, setSelectedGoalOption] = useState('');
+    useState(
+      attributes ? (injurySeverity ? injurySeverity.toString() : '') : '',
+    );
+  const [selectedGoalOption, setSelectedGoalOption] = useState(
+    attributes
+      ? mapOptionToPortuguese(goal, goalsOptionsPTBR, goalsOptions)
+      : '',
+  );
 
   const handleSelectInjuryTypeOption = (option) => {
     setSelectedInjuryTypeOption(option);
@@ -119,11 +146,11 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   };
 
   const handleInjuriesChange = (value: string) => {
-    setHasInjuries(value === 'yes');
+    setNewHasInjuries(value === 'yes');
   };
 
   const handleDietChange = (value: string) => {
-    setIsOnDiet(value === 'yes');
+    setNewIsOnDiet(value === 'yes');
   };
 
   const handleGenderChange = (id: Gender, isChecked: boolean) => {
@@ -151,7 +178,7 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
 
     setSaving(true);
 
-    if (!hasInjuries) {
+    if (!newHasInjuries) {
       setSelectedInjurySeverityOption(null);
       setSelectedInjuryTypeOption(null);
     }
@@ -181,15 +208,15 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
           weight: parseFloat(newWeight),
           height: parseFloat(newHeight),
           gender: selectedGender as Gender,
-          email: email,
+          email: newEmail,
           notes: notes,
-          phone: phone,
-          isOnDiet: isOnDiet,
-          hasInjuries: hasInjuries,
-          injurySeverity: !hasInjuries
+          phone: newPhone,
+          isOnDiet: newIsOnDiet,
+          hasInjuries: newHasInjuries,
+          injurySeverity: !newHasInjuries
             ? null
             : parseInt(selectedInjurySeverityOption),
-          injuryRegion: !hasInjuries
+          injuryRegion: !newHasInjuries
             ? null
             : (selectedInjuryTypeOptionEnglish as InjuryRegion),
           goal: selectedGoalOptionEnglish as Goal,
@@ -200,6 +227,7 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
         await onSave(studentData);
       }
     } catch (error) {
+      console.log(error.message);
       alert('Erro ao salvar');
     }
 
@@ -226,21 +254,24 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
           errorMessage="" // Provide an error message if needed
           options={goalsOptionsPTBR}
           onSelectOption={handleSelectGoalOption}
+          selectedOptionIndex={
+            attributes ? goalsOptionsPTBR.indexOf(selectedGoalOption) : 0
+          }
         />
       </Styled.TextInputGrid>
       <Styled.TextInputGrid columns={2}>
         <TextInput
           name="student-email"
           label="E-mail"
-          onInputChange={(v) => setEmail(v)}
-          value={email}
+          onInputChange={(v) => setNewEmail(v)}
+          value={newEmail}
           icon={<Email />}
           type="email"
         />
         <InputMask
           mask="(99) 9 9999-9999"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          value={newPhone}
+          onChange={(e) => setNewPhone(e.target.value)}
         >
           {(inputProps) => (
             <StyledInput.Wrapper>
@@ -303,7 +334,7 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
           label="Sim"
           name="has-injuries"
           value="yes"
-          checked={hasInjuries}
+          checked={newHasInjuries}
           onRadioButtonChange={handleInjuriesChange}
           firstItem={false}
         />
@@ -311,7 +342,7 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
           label="Não"
           name="has-not-injuries"
           value="no"
-          checked={!hasInjuries}
+          checked={!newHasInjuries}
           onRadioButtonChange={handleInjuriesChange}
           firstItem={false}
         />
@@ -320,7 +351,7 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
           label="Sim"
           name="is-on-diet"
           value="yes"
-          checked={isOnDiet}
+          checked={newIsOnDiet}
           onRadioButtonChange={handleDietChange}
           firstItem={false}
         />
@@ -328,13 +359,13 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
           label="Não"
           name="is-not-on-diet"
           value="no"
-          checked={!isOnDiet}
+          checked={!newIsOnDiet}
           onRadioButtonChange={handleDietChange}
           firstItem={false}
         />
       </Styled.TextInputGrid>
 
-      {hasInjuries && (
+      {newHasInjuries && (
         <Styled.TextInputGrid columns={2}>
           <ComboBox
             label="Selecione uma Lesão"
@@ -342,13 +373,27 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
             errorMessage="" // Provide an error message if needed
             options={injuryOptionsPTBR}
             onSelectOption={handleSelectInjuryTypeOption}
+            selectedOptionIndex={
+              attributes
+                ? selectedInjuryTypeOption
+                  ? injuryOptionsPTBR.indexOf(selectedInjuryTypeOption)
+                  : 0
+                : 0
+            }
           />
           <ComboBox
             label="Selecione um nível de gravidade"
             name="injurySeverity"
             errorMessage="" // Provide an error message if needed
-            options={injurySeverity}
+            options={injurySeverityOptions}
             onSelectOption={handleSelectInjurySeverityOption}
+            selectedOptionIndex={
+              attributes
+                ? selectedInjurySeverityOption
+                  ? injurySeverityOptions.indexOf(selectedInjurySeverityOption)
+                  : 0
+                : 0
+            }
           />
         </Styled.TextInputGrid>
       )}
@@ -363,7 +408,6 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
         }}
         as="textarea"
         errorMessage={notesErrorMessage}
-        hasFocus={shouldFocusNotes}
       />
 
       <Button type="submit" disabled={saving}>
