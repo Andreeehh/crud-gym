@@ -3,28 +3,28 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Wrapper } from '../../components/Wrapper';
 import { gqlClient } from '../../graphql/client';
-import { GQL_MUTATION_DELETE_STUDENT } from '../../graphql/mutations/student';
-import { StrapiStudent } from 'types/StrapiStudent';
+import { GQL_MUTATION_DELETE_EXERCISE } from '../../graphql/mutations/exercise';
+import { Exercise } from 'types/Exercise';
 
-export type StudentsTemplateProps = {
-  students?: StrapiStudent[];
+export type ExercisesTemplateProps = {
+  exercises?: Exercise[];
 };
 
-export function StudentsTemplate({ students = [] }: StudentsTemplateProps) {
+export function ExercisesTemplate({ exercises = [] }: ExercisesTemplateProps) {
   const [session] = useSession();
-  const [stateStudents, setStateStudents] = useState(students);
+  const [stateExercises, setStateExercises] = useState(exercises);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    setStateStudents(students);
-  }, [students]);
+    setStateExercises(exercises);
+  }, [exercises]);
 
   const handleDelete = async (id: string) => {
     setDeleting(true);
 
     try {
       await gqlClient.request(
-        GQL_MUTATION_DELETE_STUDENT,
+        GQL_MUTATION_DELETE_EXERCISE,
         {
           id,
         },
@@ -33,9 +33,9 @@ export function StudentsTemplate({ students = [] }: StudentsTemplateProps) {
         },
       );
 
-      setStateStudents((s) => s.filter((p) => p.id !== id));
+      setStateExercises((s) => s.filter((p) => p.id !== id));
     } catch (e) {
-      alert('Não foi possível excluir este student');
+      alert('Não foi possível excluir este exercise');
     }
 
     setDeleting(false);
@@ -45,9 +45,9 @@ export function StudentsTemplate({ students = [] }: StudentsTemplateProps) {
     <Wrapper>
       <h1>Olá {session?.user?.name || 'ninguém'}</h1>
 
-      {stateStudents.map((p) => (
-        <p key={'student-' + p.id}>
-          <Link href={`/students/${p.id}`}>
+      {stateExercises.map((p) => (
+        <p key={'exercise-' + p.id}>
+          <Link href={`/exercises/${p.id}`}>
             <a>{p.attributes.name}</a>
           </Link>{' '}
           |{' '}

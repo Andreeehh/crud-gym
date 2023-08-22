@@ -23,7 +23,7 @@ export function CreateStudentTemplate() {
       const createdStudent = response.createStudent.data;
       if (createdStudent) {
         // Redirect or perform any other action upon successful creation
-        // router.push(`/students/${createdStudent.id}`);
+        router.push(`/students/${createdStudent.id}`);
         alert('Criado');
       } else {
         throw new Error('Error creating student');

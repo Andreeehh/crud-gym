@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
-import { PrivateComponent } from '../components/PrivateComponent';
-import { UpdateStudentTemplate } from '../templates/UpdateStudent';
-import { privateServerSideProps } from '../utils/private-server-side-props';
+import { PrivateComponent } from '../../components/PrivateComponent';
+import { UpdateStudentTemplate } from '../../templates/UpdateStudent';
+import { privateServerSideProps } from '../../utils/private-server-side-props';
 import { gqlClient } from 'graphql/client';
 import { GQL_QUERY_GET_STUDENT } from 'graphql/queries/student';
 import { Student } from 'types/Student';

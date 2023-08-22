@@ -69,6 +69,7 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
   const {
     name,
     email,
+    slug,
     phone,
     gender,
     weight,
@@ -200,16 +201,17 @@ export const FormStudent = ({ student, onSave }: FormStudentProps) => {
         id,
         attributes: {
           name: newName,
-          slug:
-            newName
-              .replace(/ /g, '-')
-              .replace(/[^0-9a-zA-Z-]+/g, '')
-              .toLowerCase() + randomInt(1, 250),
+          slug: attributes
+            ? slug
+            : newName
+                .replace(/ /g, '-')
+                .replace(/[^0-9a-zA-Z-]+/g, '')
+                .toLowerCase() + randomInt(1, 250),
           weight: parseFloat(newWeight),
           height: parseFloat(newHeight),
           gender: selectedGender as Gender,
           email: newEmail,
-          notes: notes,
+          notes: newNotes,
           phone: newPhone,
           isOnDiet: newIsOnDiet,
           hasInjuries: newHasInjuries,
