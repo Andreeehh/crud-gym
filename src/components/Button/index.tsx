@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 import * as Styled from './styles';
+import { type } from 'os';
 
 export type ButtonProps = {
   children: React.ReactNode;
@@ -7,6 +8,7 @@ export type ButtonProps = {
   onClick?: (event?: React.FormEvent) => void;
   icon?: React.ReactNode;
   color?: 'primary' | 'secondary';
+  type?: 'submit' | 'button' | 'reset';
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
@@ -15,6 +17,7 @@ export const Button = ({
   onClick,
   icon,
   color = 'primary',
+  type = 'button',
 }: ButtonProps) => {
   const handleClick = () => {
     if (onClick) {
@@ -23,7 +26,12 @@ export const Button = ({
   };
 
   return (
-    <Styled.Button disabled={disabled} onClick={handleClick} color={color}>
+    <Styled.Button
+      type={type}
+      disabled={disabled}
+      onClick={handleClick}
+      color={color}
+    >
       {children}
       {!!icon && icon}
     </Styled.Button>

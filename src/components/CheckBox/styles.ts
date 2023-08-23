@@ -6,7 +6,7 @@ export const Wrapper = styled.div<{
   ${({ theme }) => css`
     display: flex;
     align-items: center;
-    margin-bottom: ${theme.spacings.large};
+    margin-bottom: ${theme.spacings.xsmall};
 
   `}
 `;

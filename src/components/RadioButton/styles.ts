@@ -5,7 +5,7 @@ export const RadioButtonWrapper = styled.div<{
 }>`
   display: flex;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.spacings.large};
+  margin-bottom: ${({ theme }) => theme.spacings.xsmall};
   /* Apply margin-top to the first item */
   ${(props) => props.firstItem && 'margin-top: 1rem;'}
 `;

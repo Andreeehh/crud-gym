@@ -24,7 +24,7 @@ const onInputError = (theme: DefaultTheme, errorMessage: string) => css`
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     width: 100%;
-    margin-bottom: ${theme.spacings.large};
+    margin-bottom: ${theme.spacings.xsmall};
   `}
 `;
 

@@ -17,7 +17,7 @@ export const ComboBoxWrapper = styled.div`
 ${({ theme }) => css`
     position: relative;
     width: 100%;
-    margin-bottom: ${theme.spacings.large};
+    margin-bottom: ${theme.spacings.xsmall};
     `}
 `;
 

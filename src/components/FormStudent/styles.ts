@@ -40,7 +40,7 @@ ${({ theme }) => css`
   display: flex; /* Add flex display to the container */
   justify-content: space-between; /* Add this to create space between the components */
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: ${theme.spacings.xsmall};
   @media ${theme.media.lteOrEqSmall} {
     font-size: ${theme.font.sizes.small};
     }`}
@@ -62,5 +62,5 @@ export const TextInputGrid = styled.div<TextInputGridProps>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.columns || 2}, 1fr);
   gap: ${({ theme }) => theme.spacings.medium};
-  margin-bottom: ${({ theme }) => theme.spacings.medium};
+  margin-bottom: ${({ theme }) => theme.spacings.xxtiny};
 `;

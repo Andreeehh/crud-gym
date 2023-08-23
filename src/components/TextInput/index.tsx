@@ -43,6 +43,7 @@ export const TextInput = ({
   useEffect(() => {
     if (hasFocus && inputRef.current) {
       inputRef.current.focus(); // Set focus on the input element
+      inputRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [hasFocus]);
 
