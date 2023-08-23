@@ -5,11 +5,11 @@ import React from 'react';
 import { gqlClient } from 'graphql/client';
 import { GQL_MUTATION_UPDATE_STUDENT } from 'graphql/mutations/student';
 import { ResponseStudent } from 'api/create-student';
+import { useRouter } from 'next/router';
 
 export function UpdateStudentTemplate({ student }: FormStudentProps) {
   const [session] = useSession();
-  console.log('updateStudent');
-  console.log(student);
+  const router = useRouter();
 
   const handleSave = async (studentData) => {
     const { attributes, id } = studentData;
@@ -22,6 +22,7 @@ export function UpdateStudentTemplate({ student }: FormStudentProps) {
           Authorization: `Bearer ${session.accessToken}`,
         },
       );
+      router.push(`/students`);
     } catch (error) {
       console.error(error);
       alert('Error creating student');

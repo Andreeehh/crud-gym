@@ -5,11 +5,11 @@ import React from 'react';
 import { gqlClient } from 'graphql/client';
 import { GQL_MUTATION_UPDATE_EXERCISE } from 'graphql/mutations/exercise';
 import { ResponseExercise } from 'api/create-exercise';
+import { useRouter } from 'next/router';
 
 export function UpdateExerciseTemplate({ exercise }: FormExerciseProps) {
   const [session] = useSession();
-  console.log('updateExercise');
-  console.log(exercise);
+  const router = useRouter();
 
   const handleSave = async (exerciseData) => {
     const { attributes, id } = exerciseData;
@@ -22,9 +22,10 @@ export function UpdateExerciseTemplate({ exercise }: FormExerciseProps) {
           Authorization: `Bearer ${session.accessToken}`,
         },
       );
+      router.push(`/exercises`);
     } catch (error) {
       console.error(error);
-      alert('Error creating exercise');
+      alert('Error updating exercise');
     }
   };
 

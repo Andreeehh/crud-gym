@@ -23,7 +23,7 @@ export function CreateExerciseTemplate() {
       const createdExercise = response.createExercise.data;
       if (createdExercise) {
         // Redirect or perform any other action upon successful creation
-        router.push(`/exercises/${createdExercise.id}`);
+        router.push(`/exercises`);
         alert('Criado');
       } else {
         throw new Error('Error creating exercise');
