@@ -10,60 +10,20 @@ import {
 import * as Styled from '../FormStudent/styles';
 import { ComboBox } from 'components/ComboBox';
 import { mapOptionToEnglish, mapOptionToPortuguese } from 'utils/map-options';
+import {
+  executionTypeOptions,
+  executionTypeOptionsPTBR,
+  exerciseTypeOptions,
+  exerciseTypeOptionsPTBR,
+  muscleGroupOptions,
+  muscleGroupOptionsPTBR,
+} from 'components/FormBulkExercise';
 
 export type FormExerciseProps = {
   onSave?: (exercise: Exercise) => Promise<void>;
   exercise?: Exercise;
   exercises?: Exercise[];
 };
-
-// Exercise Type Options
-export const exerciseTypeOptions = ['PULL', 'PUSH', 'FULL_BODY', 'OTHER'];
-
-export const exerciseTypeOptionsPTBR = [
-  'Puxar',
-  'Empurrar',
-  'Corpo Inteiro',
-  'Outro',
-];
-
-// Muscle Group Options
-export const muscleGroupOptions = ['UPPER_BODY', 'LOWER_BODY', 'CORE'];
-
-export const muscleGroupOptionsPTBR = [
-  'Parte Superior do Corpo',
-  'Parte Inferior do Corpo',
-  'Core',
-];
-
-// Execution Type Options
-export const executionTypeOptions = [
-  'ISOMETRIC',
-  'AEROBIC',
-  'RESISTANCE',
-  'FLEXIBILITY',
-  'BALANCE',
-  'SPEED_AND_AGILITY',
-  'POWER',
-  'MOBILITY',
-  'INTERVAL_CARDIO',
-  'SPORTS',
-  'FUNCTIONAL',
-];
-
-export const executionTypeOptionsPTBR = [
-  'Isométrico',
-  'Aeróbico',
-  'Resistência',
-  'Flexibilidade',
-  'Equilíbrio',
-  'Velocidade e Agilidade',
-  'Potência',
-  'Mobilidade',
-  'Cardio Intervalado',
-  'Esportes',
-  'Funcional',
-];
 
 export const FormExercise = ({
   exercise,
