@@ -14,6 +14,7 @@ import { mapOptionToEnglish, mapOptionToPortuguese } from 'utils/map-options';
 export type FormExerciseProps = {
   onSave?: (exercise: Exercise) => Promise<void>;
   exercise?: Exercise;
+  exercises?: Exercise[];
 };
 
 // Exercise Type Options
@@ -64,7 +65,11 @@ export const executionTypeOptionsPTBR = [
   'Funcional',
 ];
 
-export const FormExercise = ({ exercise, onSave }: FormExerciseProps) => {
+export const FormExercise = ({
+  exercise,
+  onSave,
+  exercises,
+}: FormExerciseProps) => {
   const { attributes, id = '' } = exercise || {};
   const [saving, setSaving] = useState(false);
   const { name, slug, type, muscleGroup, executionType } = attributes || {};
@@ -123,6 +128,18 @@ export const FormExercise = ({ exercise, onSave }: FormExerciseProps) => {
 
     if (!newName) {
       setNameErrorMessage('Adicione um nome');
+      setShouldFocusName(true);
+      return;
+    }
+
+    const exerciseNameExists = exercises.some(
+      (ex) =>
+        ex.attributes.name.toLowerCase() === newName.toLowerCase() &&
+        (!id || ex.id !== id),
+    );
+
+    if (exerciseNameExists) {
+      setNameErrorMessage('Exercício já existe');
       setShouldFocusName(true);
       return;
     }

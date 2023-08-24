@@ -7,7 +7,10 @@ import { GQL_MUTATION_UPDATE_EXERCISE } from 'graphql/mutations/exercise';
 import { ResponseExercise } from 'api/create-exercise';
 import { useRouter } from 'next/router';
 
-export function UpdateExerciseTemplate({ exercise }: FormExerciseProps) {
+export function UpdateExerciseTemplate({
+  exercise,
+  exercises = [],
+}: FormExerciseProps) {
   const [session] = useSession();
   const router = useRouter();
 
@@ -39,7 +42,11 @@ export function UpdateExerciseTemplate({ exercise }: FormExerciseProps) {
 
   return (
     <Wrapper>
-      <FormExercise onSave={handleSave} exercise={exercise} />
+      <FormExercise
+        onSave={handleSave}
+        exercise={exercise}
+        exercises={exercises}
+      />
     </Wrapper>
   );
 }

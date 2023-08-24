@@ -5,8 +5,11 @@ import { useRouter } from 'next/dist/client/router';
 import { FormExercise } from 'components/FormExercise';
 import { ResponseExercise } from 'api/create-exercise';
 import { GQL_MUTATION_CREATE_EXERCISE } from 'graphql/mutations/exercise';
+import { ExercisesTemplateProps } from 'templates/Exercises';
 
-export function CreateExerciseTemplate() {
+export function CreateExerciseTemplate({
+  exercises = [],
+}: ExercisesTemplateProps) {
   const router = useRouter();
   const [session] = useSession();
 
@@ -36,7 +39,7 @@ export function CreateExerciseTemplate() {
 
   return (
     <Wrapper>
-      <FormExercise onSave={handleSave} />
+      <FormExercise onSave={handleSave} exercises={exercises} />
     </Wrapper>
   );
 }
