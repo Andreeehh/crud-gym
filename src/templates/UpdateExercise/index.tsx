@@ -17,7 +17,6 @@ export function UpdateExerciseTemplate({
   const handleSave = async (exerciseData) => {
     const { attributes, id } = exerciseData;
     try {
-      console.log('exerciseData from update', exerciseData);
       await gqlClient.request<ResponseExercise>(
         GQL_MUTATION_UPDATE_EXERCISE,
         { id, ...attributes },

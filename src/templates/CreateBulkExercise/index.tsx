@@ -4,8 +4,15 @@ import { Wrapper } from '../../components/Wrapper';
 import { ResponseExercise } from 'api/create-exercise';
 import { GQL_MUTATION_CREATE_EXERCISE } from 'graphql/mutations/exercise';
 import { FormBulkExercise } from 'components/FormBulkExercise';
+import { Exercise } from 'types/Exercise';
 
-export function CreateBulkExerciseTemplate() {
+export type CreateBulkExerciseTemplateProps = {
+  createdExercises?: Exercise[];
+};
+
+export function CreateBulkExerciseTemplate({
+  createdExercises = [],
+}: CreateBulkExerciseTemplateProps) {
   const [session] = useSession();
 
   const handleSave = async (exerciseData) => {
@@ -34,7 +41,10 @@ export function CreateBulkExerciseTemplate() {
 
   return (
     <Wrapper>
-      <FormBulkExercise onSave={handleSave} />
+      <FormBulkExercise
+        onSave={handleSave}
+        createdExercises={createdExercises}
+      />
     </Wrapper>
   );
 }

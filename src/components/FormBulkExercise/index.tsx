@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 
 export type FormBulkExerciseProps = {
   onSave?: (exercise: Exercise) => Promise<void>;
+  createdExercises?: Exercise[];
 };
 
 // Exercise Type Options
@@ -64,7 +65,10 @@ export const executionTypeOptionsPTBR = [
   'Funcional',
 ];
 
-export const FormBulkExercise = ({ onSave }: FormBulkExerciseProps) => {
+export const FormBulkExercise = ({
+  onSave,
+  createdExercises,
+}: FormBulkExerciseProps) => {
   const router = useRouter();
   const [amount, setAmount] = useState(1);
   const [newName, setNewName] = useState(['']);
@@ -170,6 +174,24 @@ export const FormBulkExercise = ({ onSave }: FormBulkExerciseProps) => {
     if (error) {
       return;
     }
+
+    newName.forEach((n1, i) => {
+      createdExercises.forEach((exercise) => {
+        if (
+          n1.toLocaleLowerCase() ===
+          exercise.attributes.name.toLocaleLowerCase()
+        ) {
+          updateNameErrorMessage(i, 'Nome já existente');
+          updateShouldFocusName(i, true);
+          error = true;
+        }
+      });
+    });
+
+    if (error) {
+      return;
+    }
+
     setSaving(true);
     try {
       newName.forEach(async (name, index) => {
@@ -202,7 +224,6 @@ export const FormBulkExercise = ({ onSave }: FormBulkExerciseProps) => {
           },
         };
         if (onSave) {
-          console.log(index, exerciseData);
           await onSave(exerciseData);
         }
       });
