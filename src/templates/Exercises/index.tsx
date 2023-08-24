@@ -53,8 +53,6 @@ export function ExercisesTemplate({ exercises = [] }: ExercisesTemplateProps) {
 
   return (
     <Wrapper>
-      <h1>Olá {session?.user?.name || 'ninguém'}</h1>
-
       {stateExercises.map((p) => (
         <p
           key={'exercise-' + p.id}

@@ -43,8 +43,6 @@ export function StudentsTemplate({ students = [] }: StudentsTemplateProps) {
 
   return (
     <Wrapper>
-      <h1>Olá {session?.user?.name || 'ninguém'}</h1>
-
       {stateStudents.map((p) => (
         <p key={'student-' + p.id}>
           <Link href={`/students/${p.id}`}>
