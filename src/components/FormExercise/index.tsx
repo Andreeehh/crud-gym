@@ -44,7 +44,7 @@ export const FormExercise = ({
           exerciseTypeOptionsPTBR,
           exerciseTypeOptions,
         )
-      : '',
+      : 'Puxar',
   );
 
   const [selectedExerciseMuscleOption, setSelectedExerciseMuscleOption] =
@@ -55,7 +55,7 @@ export const FormExercise = ({
             muscleGroupOptionsPTBR,
             muscleGroupOptions,
           )
-        : '',
+        : 'Parte Superior do Corpo',
     );
 
   const [
@@ -68,7 +68,7 @@ export const FormExercise = ({
           executionTypeOptionsPTBR,
           executionTypeOptions,
         )
-      : '',
+      : 'Isométrico',
   );
 
   const handleSelectTypeOption = (option) => {

@@ -11,59 +11,19 @@ import * as Styled from '../FormStudent/styles';
 import { ComboBox } from 'components/ComboBox';
 import { mapOptionToEnglish } from 'utils/map-options';
 import { useRouter } from 'next/router';
+import {
+  executionTypeOptions,
+  executionTypeOptionsPTBR,
+  exerciseTypeOptions,
+  exerciseTypeOptionsPTBR,
+  muscleGroupOptions,
+  muscleGroupOptionsPTBR,
+} from 'components/FormBulkExercise';
 
 export type FormSameTypeExerciseProps = {
   onSave?: (exercise: Exercise) => Promise<void>;
   createdExercises?: Exercise[];
 };
-
-// Exercise Type Options
-export const exerciseTypeOptions = ['PULL', 'PUSH', 'FULL_BODY', 'OTHER'];
-
-export const exerciseTypeOptionsPTBR = [
-  'Puxar',
-  'Empurrar',
-  'Corpo Inteiro',
-  'Outro',
-];
-
-// Muscle Group Options
-export const muscleGroupOptions = ['UPPER_BODY', 'LOWER_BODY', 'CORE'];
-
-export const muscleGroupOptionsPTBR = [
-  'Parte Superior do Corpo',
-  'Parte Inferior do Corpo',
-  'Core',
-];
-
-// Execution Type Options
-export const executionTypeOptions = [
-  'ISOMETRIC',
-  'AEROBIC',
-  'RESISTANCE',
-  'FLEXIBILITY',
-  'BALANCE',
-  'SPEED_AND_AGILITY',
-  'POWER',
-  'MOBILITY',
-  'INTERVAL_CARDIO',
-  'SPORTS',
-  'FUNCTIONAL',
-];
-
-export const executionTypeOptionsPTBR = [
-  'Isométrico',
-  'Aeróbico',
-  'Resistência',
-  'Flexibilidade',
-  'Equilíbrio',
-  'Velocidade e Agilidade',
-  'Potência',
-  'Mobilidade',
-  'Cardio Intervalado',
-  'Esportes',
-  'Funcional',
-];
 
 export const FormSameTypeExercise = ({
   onSave,
@@ -76,15 +36,15 @@ export const FormSameTypeExercise = ({
   const [nameErrorMessage, setNameErrorMessage] = useState(['']);
   const [shouldFocusName, setShouldFocusName] = useState([true]);
   const [selectedExerciseTypeOption, setSelectedExerciseTypeOption] =
-    useState('');
+    useState('Puxar');
 
   const [selectedExerciseMuscleOption, setSelectedExerciseMuscleOption] =
-    useState('');
+    useState('Parte Superior do Corpo');
 
   const [
     selectedExerciseExecutionTypeOption,
     setSelectedExerciseExecutionTypeOption,
-  ] = useState('');
+  ] = useState('Isométrico');
 
   const updateName = (indexToUpdate, newNameValue) => {
     const updatedArray = [...newName];
