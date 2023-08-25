@@ -62,5 +62,5 @@ export const TextInputGrid = styled.div<TextInputGridProps>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.columns || 2}, 1fr);
   gap: ${({ theme }) => theme.spacings.medium};
-  margin-bottom: ${({ theme }) => theme.spacings.xxtiny};
+  margin-bottom: ${({ theme }) => theme.spacings.small};
 `;

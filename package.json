@@ -21,6 +21,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.2",
+    "@mui/system": "^5.14.6",
     "@styled-icons/material-outlined": "^10.34.0",
     "graphql": "^16.7.1",
     "graphql-request": "^6.1.0",
