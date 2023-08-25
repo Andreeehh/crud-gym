@@ -12,6 +12,7 @@ export type ExercisePerformance = {
   loadOrTimeExpected?: number;
   loadOrTimeExecuted?: number;
   executionDate: string;
+  orderNumber: number;
   exercise: Exercise;
   student?: StrapiStudent;
   training?: Training;

@@ -34,7 +34,7 @@ export const GQL_QUERY_GET_EXERCISE_PERFORMANCES = gql`
 export const GQL_QUERY_GET_EXERCISE_PERFORMANCE = gql`
   ${GQL_FRAGMENT_EXERCISE_PERFORMANCE_ENTITY_RESPONSE}
 
-  query GET_EXERCISE($id: ID!) {
+  query GET_EXERCISE_PERFORMANCE($id: ID!) {
   exercisePerformance(id: $id) {
     ...ExercisePerformanceEntityResponseFragment
   }

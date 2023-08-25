@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 
-export const GQL_FRAGMENT_EXERCISE_PERFORMANCE_ENTITY_RESPONSE = gql`
+export const GQL_FRAGMENT_TRAINING_ENTITY_RESPONSE = gql`
     fragment ExerciseFragment on Exercise {
   name
   slug
@@ -45,12 +45,6 @@ fragment StudentEntityFragment on StudentEntity {
   }
 }
 
-fragment StudentEntityResponseFragment on StudentEntityResponse {
-  data {
-    ...StudentEntityFragment
-  }
-}
-
 fragment Training on Training {
   name
   description
@@ -91,39 +85,6 @@ fragment TrainingEntityResponse on TrainingEntityResponse {
   }
 }
 
-fragment ExercisePerformanceFragment on ExercisePerformance {
-  series
-  type
-  repetitionsExpected
-  repetitionsExecuted
-  loadOrTimeExpected
-  loadOrTimeExecuted
-  executionDate
-  orderNumber
-  exercise {
-    ...ExerciseEntityResponse
-  }
-  student {
-    ...StudentEntityResponseFragment
-  }
-  training {
-    ...TrainingEntityResponse
-  }
-}
-
-fragment ExercisePerformanceEntityFragment on ExercisePerformanceEntity {
-  id
-  attributes {
-    ...ExercisePerformanceFragment
-  }
-}
-
-fragment ExercisePerformanceEntityResponseFragment on ExercisePerformanceEntityResponse {
-  data {
-    ...ExercisePerformanceEntityFragment
-  }
-}
-
 fragment StudentRelationResponseCollection on StudentRelationResponseCollection {
   data {
     ...StudentEntityFragment
@@ -131,8 +92,8 @@ fragment StudentRelationResponseCollection on StudentRelationResponseCollection 
 }
 `;
 
-export const GQL_FRAGMENT_EXERCISE_PERFORMANCE = gql`
-fragment ExerciseFragment on Exercise {
+export const GQL_FRAGMENT_TRAINING = gql`
+    fragment ExerciseFragment on Exercise {
   name
   slug
   type
@@ -176,12 +137,6 @@ fragment StudentEntityFragment on StudentEntity {
   }
 }
 
-fragment StudentEntityResponseFragment on StudentEntityResponse {
-  data {
-    ...StudentEntityFragment
-  }
-}
-
 fragment Training on Training {
   name
   description
@@ -216,43 +171,15 @@ fragment TrainingEntity on TrainingEntity {
   }
 }
 
-fragment TrainingEntityResponse on TrainingEntityResponse {
-  data {
-    ...TrainingEntity
-  }
-}
-
-fragment ExercisePerformanceFragment on ExercisePerformance {
-  series
-  type
-  repetitionsExpected
-  repetitionsExecuted
-  loadOrTimeExpected
-  loadOrTimeExecuted
-  executionDate
-  orderNumber
-  exercise {
-    ...ExerciseEntityResponse
-  }
-  student {
-    ...StudentEntityResponseFragment
-  }
-  training {
-    ...TrainingEntityResponse
-  }
-}
-
-fragment ExercisePerformanceEntityFragment on ExercisePerformanceEntity {
-  id
-  attributes {
-    ...ExercisePerformanceFragment
-  }
-}
-
 fragment StudentRelationResponseCollection on StudentRelationResponseCollection {
   data {
     ...StudentEntityFragment
   }
 }
 
+fragment TrainingEntityResponseCollection on TrainingEntityResponseCollection {
+  data {
+    ...TrainingEntity
+  }
+}
 `;
