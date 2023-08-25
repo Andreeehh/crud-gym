@@ -27,3 +27,9 @@ export type ExecutionType =
   | 'INTERVAL CARDIO'
   | 'SPORTS'
   | 'FUNCTIONAL';
+
+export type ResponseExercise = {
+  createExercise: {
+    data: Exercise;
+  };
+};

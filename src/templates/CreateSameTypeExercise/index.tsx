@@ -1,10 +1,9 @@
 import { useSession } from 'next-auth/client';
 import { gqlClient } from '../../graphql/client';
 import { Wrapper } from '../../components/Wrapper';
-import { ResponseExercise } from 'api/create-exercise';
 import { GQL_MUTATION_CREATE_EXERCISE } from 'graphql/mutations/exercise';
 import { FormSameTypeExercise } from 'components/FormSameTypeExercise';
-import { Exercise } from 'types/Exercise';
+import { Exercise, ResponseExercise } from 'types/Exercise';
 
 export type CreateSameTypeExerciseTemplateProps = {
   createdExercises?: Exercise[];

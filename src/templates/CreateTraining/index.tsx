@@ -2,44 +2,41 @@ import { useSession } from 'next-auth/client';
 import { gqlClient } from '../../graphql/client';
 import { Wrapper } from '../../components/Wrapper';
 import { useRouter } from 'next/dist/client/router';
-import { FormExercise } from 'components/FormExercise';
-import { ResponseExercise } from 'api/create-exercise';
-import { GQL_MUTATION_CREATE_EXERCISE } from 'graphql/mutations/exercise';
-import { ExercisesTemplateProps } from 'templates/Exercises';
+import { FormTraining } from 'components/FormTraining';
+import { GQL_MUTATION_CREATE_TRAINING } from 'graphql/mutations/training';
+import { ResponseTraining } from 'types/Training';
 
-export function CreateExerciseTemplate({
-  exercises = [],
-}: ExercisesTemplateProps) {
+export function CreateTrainingTemplate() {
   const router = useRouter();
   const [session] = useSession();
 
-  const handleSave = async (exerciseData) => {
-    const { attributes } = exerciseData;
+  const handleSave = async (trainingData) => {
+    const { attributes } = trainingData;
     try {
-      const response = await gqlClient.request<ResponseExercise>(
-        GQL_MUTATION_CREATE_EXERCISE, // Make sure you have this mutation imported
+      const response = await gqlClient.request<ResponseTraining>(
+        GQL_MUTATION_CREATE_TRAINING, // Make sure you have this mutation imported
         { ...attributes },
         {
           Authorization: `Bearer ${session.accessToken}`,
         },
       );
-      const createdExercise = response.createExercise.data;
-      if (createdExercise) {
+      const createdTraining = response.createTraining.data;
+      if (createdTraining) {
         // Redirect or perform any other action upon successful creation
-        router.push(`/exercises`);
+        router.push(`/trainings`);
         alert('Criado');
       } else {
-        throw new Error('Error creating exercise');
+        throw new Error('Error creating training');
       }
     } catch (error) {
       console.error(error);
-      alert('Error creating exercise');
+      alert('Error creating training');
     }
   };
 
   return (
     <Wrapper>
-      <FormExercise onSave={handleSave} exercises={exercises} />
+      <FormTraining onSave={handleSave} />
     </Wrapper>
   );
 }

@@ -8,3 +8,9 @@ export type Training = {
   exercisePerformances?: ExercisePerformance[];
   students?: Student[];
 };
+
+export type ResponseTraining = {
+  createTraining: {
+    data: Training;
+  };
+};

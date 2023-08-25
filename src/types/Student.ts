@@ -22,3 +22,9 @@ export type StudentAttributes = {
   injurySeverity?: number | null;
   notes?: string;
 };
+
+export type ResponseStudent = {
+  createStudent: {
+    data: Student;
+  };
+};

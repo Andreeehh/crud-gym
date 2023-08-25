@@ -3,9 +3,9 @@ import { gqlClient } from '../../graphql/client';
 import { Wrapper } from '../../components/Wrapper';
 import { useRouter } from 'next/dist/client/router';
 import { FormExercise } from 'components/FormExercise';
-import { ResponseExercise } from 'api/create-exercise';
 import { GQL_MUTATION_CREATE_EXERCISE } from 'graphql/mutations/exercise';
 import { ExercisesTemplateProps } from 'templates/Exercises';
+import { ResponseExercise } from 'types/Exercise';
 
 export function CreateExerciseTemplate({
   exercises = [],

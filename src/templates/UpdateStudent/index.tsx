@@ -4,8 +4,8 @@ import { Wrapper } from '../../components/Wrapper';
 import React from 'react';
 import { gqlClient } from 'graphql/client';
 import { GQL_MUTATION_UPDATE_STUDENT } from 'graphql/mutations/student';
-import { ResponseStudent } from 'api/create-student';
 import { useRouter } from 'next/router';
+import { ResponseStudent } from 'types/Student';
 
 export function UpdateStudentTemplate({ student }: FormStudentProps) {
   const [session] = useSession();

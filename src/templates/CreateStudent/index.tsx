@@ -3,8 +3,8 @@ import { gqlClient } from '../../graphql/client';
 import { Wrapper } from '../../components/Wrapper';
 import { useRouter } from 'next/dist/client/router';
 import { FormStudent } from 'components/FormStudent';
-import { ResponseStudent } from 'api/create-student';
 import { GQL_MUTATION_CREATE_STUDENT } from 'graphql/mutations/student';
+import { ResponseStudent } from 'types/Student';
 
 export function CreateStudentTemplate() {
   const router = useRouter();

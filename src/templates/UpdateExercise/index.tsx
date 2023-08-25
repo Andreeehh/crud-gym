@@ -4,8 +4,8 @@ import { Wrapper } from '../../components/Wrapper';
 import React from 'react';
 import { gqlClient } from 'graphql/client';
 import { GQL_MUTATION_UPDATE_EXERCISE } from 'graphql/mutations/exercise';
-import { ResponseExercise } from 'api/create-exercise';
 import { useRouter } from 'next/router';
+import { ResponseExercise } from 'types/Exercise';
 
 export function UpdateExerciseTemplate({
   exercise,
