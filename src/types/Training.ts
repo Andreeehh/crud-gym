@@ -9,8 +9,24 @@ export type Training = {
   students?: Student[];
 };
 
+export type CreateTraining = {
+  name: string;
+  slug: string;
+  description?: string;
+  exercisePerformances?: number[];
+  students?: number[];
+};
+
 export type ResponseTraining = {
   createTraining: {
-    data: Training;
+    data: {
+      id: string;
+      attributes: Training;
+    };
   };
+};
+
+export type TrainingData = {
+  id: string;
+  attributes: CreateTraining;
 };

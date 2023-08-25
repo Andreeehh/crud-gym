@@ -6,8 +6,8 @@ export const GQL_MUTATION_UPDATE_TRAINING = gql`
 
   mutation UPDATE_TRAINING(
   $id: ID!,
-  $name: String!,
-  $slug: String!,
+  $name: String,
+  $slug: String,
   $description: String,
   $exercisePerformances: [ID]
   $students: [ID]
@@ -30,6 +30,9 @@ export const GQL_MUTATION_UPDATE_TRAINING = gql`
 `;
 
 export const GQL_MUTATION_CREATE_TRAINING = gql`
+${GQL_FRAGMENT_TRAINING_ENTITY_RESPONSE}
+
+
   mutation CREATE_TRAINING(
   $name: String!,
   $slug: String!,

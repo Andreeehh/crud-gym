@@ -11,9 +11,37 @@ export type ExercisePerformance = {
   repetitionsExecuted?: number;
   loadOrTimeExpected?: number;
   loadOrTimeExecuted?: number;
-  executionDate: string;
-  orderNumber: number;
+  executionDate?: string;
+  orderNumber?: number;
   exercise: Exercise;
   student?: StrapiStudent;
   training?: Training;
+};
+
+export type ResponseExercisePerformance = {
+  createExercisePerformance: {
+    data: {
+      id: string;
+      attributes: ExercisePerformance;
+    };
+  };
+};
+
+export type ExercisePerformanceData = {
+  id: string;
+  attributes: CreateExercisePerformance;
+};
+
+export type CreateExercisePerformance = {
+  series: number;
+  type?: ExercisePerformanceType;
+  repetitionsExpected?: number;
+  repetitionsExecuted?: number;
+  loadOrTimeExpected?: number;
+  loadOrTimeExecuted?: number;
+  executionDate?: string;
+  orderNumber?: number;
+  exercise: string;
+  student?: string;
+  training?: string;
 };

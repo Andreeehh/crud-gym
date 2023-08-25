@@ -6,9 +6,15 @@ import React, { useState } from 'react';
 import { TextInput } from 'components/TextInput';
 import { FilterAutocomplete } from 'components/FilterAutocomplete';
 import { Label } from 'components/Label';
+import { TrainingData } from 'types/Training';
+import { ExercisePerformanceData } from 'types/ExercisePerformance';
+import { getExerciseByName } from 'utils/exercises';
 
 export type FormTrainingProps = {
-  onSave?: (exercise: Exercise) => Promise<void>;
+  onSave?: (
+    training: TrainingData,
+    exercisePerformances: ExercisePerformanceData[],
+  ) => Promise<void>;
   exercises: Exercise[];
   students: Student[];
 };
@@ -29,10 +35,6 @@ export const FormTraining = ({
   const [repetitionsErrorMessage, setRepetitionsErrorMessage] = useState([]);
   const [shouldFocusRepetitions, setShouldFocusRepetitions] = useState([]);
 
-  const [loads, setLoads] = useState([]);
-  const [loadsErrorMessage, setLoadsErrorMessage] = useState([]);
-  const [shouldFocusLoads, setShouldFocusLoads] = useState([]);
-
   const exercisesNames = exercises.map((ex) => ex.attributes.name);
 
   const handleAddExercise = () => {
@@ -48,9 +50,6 @@ export const FormTraining = ({
       setRepetitions([...repetitions, '']);
       setRepetitionsErrorMessage([...repetitionsErrorMessage, '']);
       setShouldFocusRepetitions([...shouldFocusRepetitions, false]);
-      setLoads([...loads, '']);
-      setLoadsErrorMessage([...loadsErrorMessage, '']);
-      setShouldFocusLoads([...shouldFocusLoads, false]);
     }
 
     // Limpar os campos de entrada após adicionar o exercício
@@ -81,27 +80,6 @@ export const FormTraining = ({
     setShouldFocusRepetitions(updatedArray);
   };
 
-  const updateLoads = (indexToUpdate, newLoadsValue) => {
-    const updatedArray = [...loads];
-    updatedArray[indexToUpdate] = newLoadsValue;
-    setLoads(updatedArray);
-  };
-
-  const updateLoadsErrorMessage = (
-    indexToUpdate,
-    newLoadsErrorMessageValue,
-  ) => {
-    const updatedArray = [...loadsErrorMessage];
-    updatedArray[indexToUpdate] = newLoadsErrorMessageValue;
-    setLoadsErrorMessage(updatedArray);
-  };
-
-  const updateShouldFocusLoads = (indexToUpdate, newShouldFocusLoads) => {
-    const updatedArray = [...shouldFocusLoads];
-    updatedArray[indexToUpdate] = newShouldFocusLoads;
-    setShouldFocusLoads(updatedArray);
-  };
-
   const validateForm = () => {
     let formIsValid = true;
 
@@ -114,15 +92,6 @@ export const FormTraining = ({
       }
     });
 
-    // Verifique os campos de cargas
-    loads.forEach((value, index) => {
-      if (value === '') {
-        updateLoadsErrorMessage(index, 'Campo obrigatório');
-        updateShouldFocusLoads(index, true);
-        formIsValid = false;
-      }
-    });
-
     return formIsValid;
   };
 
@@ -131,10 +100,40 @@ export const FormTraining = ({
       return; // Não envie o formulário se não for válido
     }
 
+    const exercisePerformances: ExercisePerformanceData[] = [];
+    trainingData.forEach((t, index) => {
+      const exercise = getExerciseByName(
+        trainingData[index].exercise as string,
+        exercises,
+      ).id;
+      const series = trainingData[index].series as number;
+      Array.from({ length: weeks }).map((_, weekIndex) => {
+        const rep = Number(repetitions[index * weeks + weekIndex]);
+        const exercisePerformanceData: ExercisePerformanceData = {
+          id: '1',
+          attributes: {
+            repetitionsExpected: rep,
+            series,
+            exercise,
+            orderNumber: weekIndex,
+          },
+        };
+        exercisePerformances.push(exercisePerformanceData);
+      });
+    });
+
+    const trainingToData: TrainingData = {
+      id: '1',
+      attributes: {
+        name: 'testedada',
+        slug: 'tesdassdd',
+      },
+    };
+
     setSaving(true);
     try {
       if (onSave) {
-        // await onSave();
+        await onSave(trainingToData, exercisePerformances);
       }
     } catch (error) {
       console.log(error.message);
@@ -203,17 +202,13 @@ export const FormTraining = ({
       )}
 
       {trainingData.map((exerciseData, exerciseIndex) => (
-        <Styled.TextInputGrid columns={2 + 2 * weeks} key={exerciseIndex}>
+        <Styled.TextInputGrid columns={1 + weeks} key={exerciseIndex}>
           <TextInput
             name={`exercise-name${exerciseIndex + 1}`}
             value={exerciseData.exercise}
-            label={`Exercício ${exerciseIndex + 1}`}
-            readOnly={true}
-          />
-          <TextInput
-            name={`exercise-series${exerciseIndex + 1}`}
-            value={exerciseData.series}
-            label="Séries"
+            label={`Exercício ${exerciseIndex + 1} Séries:${
+              exerciseData.series
+            }x`}
             readOnly={true}
           />
           {Array.from({ length: weeks }).map((_, weekIndex) => (
@@ -236,22 +231,6 @@ export const FormTraining = ({
                     weekIndex == 0) ||
                   shouldFocusRepetitions[exerciseIndex * weeks + weekIndex]
                 }
-                type="number"
-              />
-              <TextInput
-                name={'load-week-' + weekIndex}
-                label="Carga"
-                value={loads[exerciseIndex * weeks + weekIndex]}
-                onInputChange={(v) => {
-                  const fieldIndex = exerciseIndex * weeks + weekIndex;
-                  updateLoads(fieldIndex, v);
-                  updateLoadsErrorMessage(fieldIndex, '');
-                  updateShouldFocusLoads(fieldIndex, false);
-                }}
-                errorMessage={
-                  loadsErrorMessage[exerciseIndex * weeks + weekIndex]
-                }
-                hasFocus={shouldFocusLoads[exerciseIndex * weeks + weekIndex]}
                 type="number"
               />
             </>
