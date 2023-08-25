@@ -55,6 +55,7 @@ fragment Training on Training {
   name
   description
   slug
+  weekAmount
   exercise_performances {
     data {
       id
@@ -184,6 +185,7 @@ fragment Training on Training {
   name
   description
   slug
+  weekAmount
   exercise_performances {
     data {
       id
