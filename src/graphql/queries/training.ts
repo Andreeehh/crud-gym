@@ -36,7 +36,7 @@ export const GQL_QUERY_GET_TRAINING = gql`
 
   query GET_TRAINING($id: ID!) {
     training(id: $id) {
-      ...TrainingEntityResponseFragment
+      ...TrainingEntityResponse
     }
   }
 `;
