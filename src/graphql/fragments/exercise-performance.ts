@@ -253,12 +253,4 @@ fragment StudentRelationResponseCollection on StudentRelationResponseCollection 
   }
 }
 
-query GET_EXERCISES($start: Int = 0, $sort: [String] = ["createdAt:desc"]) {
-  exercisePerformances(pagination: { start: $start }, sort: $sort) {
-    data {
-      ...ExercisePerformanceEntityFragment
-    }
-  }
-}
-
 `;
