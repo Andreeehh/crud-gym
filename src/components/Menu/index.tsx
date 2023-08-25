@@ -45,6 +45,9 @@ export const Menu = () => {
       <Link href="/create-same-type-exercise">
         <a>Criar Exercícios do mesmo tipo</a>
       </Link>
+      <Link href="/create-training">
+        <a>Criar Treino</a>
+      </Link>
       {/* <Link href="/open-route">
         <a>Open route</a>
       </Link> */}

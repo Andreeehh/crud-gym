@@ -5,8 +5,18 @@ import { useRouter } from 'next/dist/client/router';
 import { FormTraining } from 'components/FormTraining';
 import { GQL_MUTATION_CREATE_TRAINING } from 'graphql/mutations/training';
 import { ResponseTraining } from 'types/Training';
+import { Student } from 'types/Student';
+import { Exercise } from 'types/Exercise';
 
-export function CreateTrainingTemplate() {
+export type CreateTrainingTemplateProps = {
+  students: Student[];
+  exercises: Exercise[];
+};
+
+export function CreateTrainingTemplate({
+  students,
+  exercises,
+}: CreateTrainingTemplateProps) {
   const router = useRouter();
   const [session] = useSession();
 
@@ -36,7 +46,11 @@ export function CreateTrainingTemplate() {
 
   return (
     <Wrapper>
-      <FormTraining onSave={handleSave} />
+      <FormTraining
+        onSave={handleSave}
+        exercises={exercises}
+        students={students}
+      />
     </Wrapper>
   );
 }
