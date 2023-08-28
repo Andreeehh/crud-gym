@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { TextInput } from 'components/TextInput';
 import { FilterAutocomplete } from 'components/FilterAutocomplete';
 import { Label } from 'components/Label';
-import { TrainingData } from 'types/Training';
+import { Training, TrainingData } from 'types/Training';
 import { ExercisePerformanceData } from 'types/ExercisePerformance';
 import { getExerciseByName } from 'utils/exercises';
 import { randomInt } from 'utils/math-utils';
@@ -18,12 +18,14 @@ export type FormTrainingProps = {
   ) => Promise<void>;
   exercises: Exercise[];
   students: Student[];
+  training?: Training;
 };
 
 export const FormTraining = ({
   onSave,
   exercises,
   students,
+  training,
 }: FormTrainingProps) => {
   const [saving, setSaving] = useState(false);
   const [trainingData, setTrainingData] = useState([]);
