@@ -14,6 +14,7 @@ export const GQL_MUTATION_UPDATE_EXERCISE = gql`
   $repetitionsExecuted: Int
   $loadOrTimeExpected: Int
   $loadOrTimeExecuted: Int
+  $orderNumber: Int
   $type: ENUM_EXERCISEPERFORMANCE_TYPE
 ) {
   updateExercisePerformance(
@@ -27,6 +28,7 @@ export const GQL_MUTATION_UPDATE_EXERCISE = gql`
       repetitionsExecuted: $repetitionsExecuted
       loadOrTimeExpected: $loadOrTimeExpected
       loadOrTimeExecuted: $loadOrTimeExecuted
+      orderNumber: $orderNumber
       type: $type
     }
   ) {
@@ -48,6 +50,7 @@ export const GQL_MUTATION_CREATE_EXERCISE_PERFORMANCE = gql`
   $repetitionsExecuted: Int
   $loadOrTimeExpected: Int
   $loadOrTimeExecuted: Int
+  $orderNumber: Int
   $type: ENUM_EXERCISEPERFORMANCE_TYPE
 ) {
   createExercisePerformance(
@@ -60,6 +63,7 @@ export const GQL_MUTATION_CREATE_EXERCISE_PERFORMANCE = gql`
       repetitionsExecuted: $repetitionsExecuted
       loadOrTimeExpected: $loadOrTimeExpected
       loadOrTimeExecuted: $loadOrTimeExecuted
+      orderNumber: $orderNumber
       type: $type
     }
   ) {

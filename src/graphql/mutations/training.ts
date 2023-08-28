@@ -11,7 +11,7 @@ export const GQL_MUTATION_UPDATE_TRAINING = gql`
   $description: String,
   $exercisePerformances: [ID]
   $students: [ID]
-
+  $weekAmount: Int
 ) {
   updateTraining(
     id: $id
@@ -21,6 +21,7 @@ export const GQL_MUTATION_UPDATE_TRAINING = gql`
       description: $description,
       exercise_performances: $exercisePerformances,
       students: $students
+      weekAmount: $weekAmount
     }
   ) {
     ...TrainingEntityResponse
@@ -39,7 +40,7 @@ ${GQL_FRAGMENT_TRAINING_ENTITY_RESPONSE}
   $description: String,
   $exercisePerformances: [ID]
   $students: [ID]
-
+  $weekAmount: Int
 ) {
   createTraining(
     data: {
@@ -48,6 +49,7 @@ ${GQL_FRAGMENT_TRAINING_ENTITY_RESPONSE}
       description: $description,
       exercise_performances: $exercisePerformances,
       students: $students
+      weekAmount: $weekAmount
     }
   ) {
     ...TrainingEntityResponse

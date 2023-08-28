@@ -127,7 +127,7 @@ export const Input = styled.input<StyledInputType>`
     ${
       as === 'textarea' &&
       css`
-      min-height: ${theme.frameSizes.smallMedium};
+      min-height: ${theme.frameSizes.xsmall};
     `
     }
 

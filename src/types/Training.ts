@@ -7,6 +7,7 @@ export type Training = {
   description?: string;
   exercisePerformances?: ExercisePerformance[];
   students?: Student[];
+  weekAmount: number;
 };
 
 export type CreateTraining = {
@@ -15,6 +16,7 @@ export type CreateTraining = {
   description?: string;
   exercisePerformances?: number[];
   students?: number[];
+  weekAmount: number;
 };
 
 export type ResponseTraining = {

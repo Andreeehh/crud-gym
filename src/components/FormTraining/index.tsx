@@ -9,6 +9,7 @@ import { Label } from 'components/Label';
 import { TrainingData } from 'types/Training';
 import { ExercisePerformanceData } from 'types/ExercisePerformance';
 import { getExerciseByName } from 'utils/exercises';
+import { randomInt } from 'utils/math-utils';
 
 export type FormTrainingProps = {
   onSave?: (
@@ -37,8 +38,17 @@ export const FormTraining = ({
 
   const exercisesNames = exercises.map((ex) => ex.attributes.name);
 
+  const [name, setName] = useState('');
+  const [nameErrorMessage, setNameErrorMessage] = useState('');
+  const [shouldFocusName, setShouldFocusName] = useState(false);
+  const [description, setDescription] = useState('');
+
   const handleAddExercise = () => {
     // Adicionar uma nova linha de exercício à tabela
+    if (getExerciseByName(exercise, exercises) == null) {
+      alert('Digite um nome de exercício existente');
+      return;
+    }
     const newExercise = {
       exercise,
       series,
@@ -92,6 +102,12 @@ export const FormTraining = ({
       }
     });
 
+    if (name === '') {
+      setShouldFocusName(true);
+      setNameErrorMessage('Adicione um nome');
+      formIsValid = false;
+    }
+
     return formIsValid;
   };
 
@@ -125,8 +141,14 @@ export const FormTraining = ({
     const trainingToData: TrainingData = {
       id: '1',
       attributes: {
-        name: 'testedada',
-        slug: 'tesdassdd',
+        name: name,
+        slug:
+          name
+            .replace(/ /g, '-')
+            .replace(/[^0-9a-zA-Z-]+/g, '')
+            .toLowerCase()
+            .slice(0, 40) + randomInt(0, 1000),
+        weekAmount: weeks,
       },
     };
 
@@ -159,6 +181,7 @@ export const FormTraining = ({
           }}
           errorMessage={''}
           hasFocus={false}
+          type="number"
         />
         <Button type="button" onClick={handleWeekClick}>
           Continuar
@@ -169,6 +192,28 @@ export const FormTraining = ({
 
   return (
     <>
+      <TextInput
+        name="name"
+        label="Nome"
+        value={name}
+        onInputChange={(v) => {
+          setName(v);
+          setNameErrorMessage('');
+        }}
+        errorMessage={nameErrorMessage}
+        hasFocus={!trainingData || shouldFocusName}
+      />
+      <TextInput
+        name="description"
+        label="Descrição"
+        value={description}
+        onInputChange={(v) => {
+          setDescription(v);
+        }}
+        errorMessage={''}
+        hasFocus={false}
+        as="textarea"
+      />
       <Styled.TextInputGrid columns={2}>
         <FilterAutocomplete
           label="Exercício"
