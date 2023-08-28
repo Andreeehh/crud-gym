@@ -19,10 +19,10 @@ export type TrainingsResponse = {
   };
 };
 
-export default function TrainingsPage() {
+export default function TrainingsPage({ trainings = [] }: TrainingsPageProps) {
   return (
     <PrivateComponent>
-      <TrainingsTemplate />
+      <TrainingsTemplate trainings={trainings} />
     </PrivateComponent>
   );
 }

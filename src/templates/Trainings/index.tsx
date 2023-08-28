@@ -3,38 +3,29 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Wrapper } from '../../components/Wrapper';
 import { gqlClient } from '../../graphql/client';
-import { GQL_MUTATION_DELETE_EXERCISE } from '../../graphql/mutations/exercise';
-import { Exercise } from 'types/Exercise';
-import {
-  executionTypeOptions,
-  executionTypeOptionsPTBR,
-  exerciseTypeOptions,
-  exerciseTypeOptionsPTBR,
-  muscleGroupOptions,
-  muscleGroupOptionsPTBR,
-} from 'components/FormBulkExercise';
-import { mapOptionToPortuguese } from 'utils/map-options';
+import { GQL_MUTATION_DELETE_TRAINING } from '../../graphql/mutations/training';
+import { Training } from 'types/Training';
 import { Button } from 'components/Button';
 
 export type TrainingsTemplateProps = {
-  exercises?: Exercise[];
+  trainings?: Training[];
 };
 
-export function TrainingsTemplate({ exercises = [] }: TrainingsTemplateProps) {
+export function TrainingsTemplate({ trainings = [] }: TrainingsTemplateProps) {
   const [session] = useSession();
-  const [stateExercises, setStateExercises] = useState(exercises);
+  const [stateTrainings, setStateTrainings] = useState(trainings);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    setStateExercises(exercises);
-  }, [exercises]);
+    setStateTrainings(trainings);
+  }, [trainings]);
 
   const handleDelete = async (id: string) => {
     setDeleting(true);
 
     try {
       await gqlClient.request(
-        GQL_MUTATION_DELETE_EXERCISE,
+        GQL_MUTATION_DELETE_TRAINING,
         {
           id,
         },
@@ -43,9 +34,9 @@ export function TrainingsTemplate({ exercises = [] }: TrainingsTemplateProps) {
         },
       );
 
-      setStateExercises((s) => s.filter((p) => p.id !== id));
+      setStateTrainings((s) => s.filter((p) => p.id !== id));
     } catch (e) {
-      alert('Não foi possível excluir este exercise');
+      alert('Não foi possível excluir este training');
     }
 
     setDeleting(false);
@@ -53,36 +44,17 @@ export function TrainingsTemplate({ exercises = [] }: TrainingsTemplateProps) {
 
   return (
     <Wrapper>
-      {stateExercises.map((p) => (
+      {stateTrainings.map((p) => (
         <p
-          key={'exercise-' + p.id}
+          key={'training-' + p.id}
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
-          <Link href={`/exercises/${p.id}`}>
-            <a style={{ fontSize: '2rem' }}>
-              {p.attributes.name} |{' '}
-              {mapOptionToPortuguese(
-                p.attributes.type,
-                exerciseTypeOptionsPTBR,
-                exerciseTypeOptions,
-              )}{' '}
-              |{' '}
-              {mapOptionToPortuguese(
-                p.attributes.muscleGroup,
-                muscleGroupOptionsPTBR,
-                muscleGroupOptions,
-              )}{' '}
-              |{' '}
-              {mapOptionToPortuguese(
-                p.attributes.executionType,
-                executionTypeOptionsPTBR,
-                executionTypeOptions,
-              )}
-            </a>
+          <Link href={`/trainings/${p.id}`}>
+            <a style={{ fontSize: '2rem' }}>{p.attributes.name}</a>
           </Link>
           <Button onClick={() => handleDelete(p.id)} disabled={deleting}>
             Excluir

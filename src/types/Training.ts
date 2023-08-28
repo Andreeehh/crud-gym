@@ -2,6 +2,11 @@ import { ExercisePerformance } from './ExercisePerformance';
 import { Student } from './Student';
 
 export type Training = {
+  id: string;
+  attributes: TrainingAttributes;
+};
+
+export type TrainingAttributes = {
   name: string;
   slug: string;
   description?: string;
@@ -23,7 +28,7 @@ export type ResponseTraining = {
   createTraining: {
     data: {
       id: string;
-      attributes: Training;
+      attributes: TrainingAttributes;
     };
   };
 };
